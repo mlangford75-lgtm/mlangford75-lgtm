@@ -1,0 +1,675 @@
+https://huggingface.co/JackAgentLead/Jack-Long-Agentic-MTP-27b-IQ4_XS
+
+Jack-Long-Agentic-MTP-27b-IQ4_XS.gguf
+Qwen3.6-27B intelligence. Jack long-horizon cognition.
+
+Research Preview / Experimental Demo
+This model is powerful but experimental and is released for research purposes.
+
+It is a working demonstration of the Jack long-context agentic inference architecture integrated directly into a self-contained GGUF model.
+
+The current release is intended to gather community feedback, behavioral data, failure cases, and comparative results before any future weight-level fine-tuning.
+
+For best results, leave the external system prompt empty and provide persistent instructions through normal chat messages. Jack converts those instructions into structured XML state and preserve them across turns, while a competing external system prompt may interfere with the architecture embedded in the GGUF chat template.
+
+Community testing and reproducible comparisons against the unmodified base model are encouraged.
+
+Repository:
+https://github.com/mlangford75-lgtm/mlangford75-lgtm
+
+Contact:
+Mlangford75@protonmail.com
+
+Overview
+Jack-Long-Agentic-MTP-27b is a long-context, agent-oriented derivative of Qwen3.6-27B.
+
+The underlying quantized tensor data is not modified by the Jack integration.
+
+Instead, the Jack cognitive architecture is integrated into the GGUF through the model's tokenizer.chat_template metadata while preserving the native model as the underlying cognitive engine.
+
+The intended execution flow is:
+
+Native Qwen reasoning
+        ↓
+Deterministic tools when required
+        ↓
+Jack structured workspace reasoning
+        ↓
+Final user-facing answer
+Jack is designed for tasks that evolve over many turns, including:
+long coding sessions
+repository modification
+debugging across repeated tool calls
+autonomous research
+document analysis
+infrastructure planning
+multi-stage execution
+complex tool orchestration
+persistent project work
+conversations in which requirements change over time
+In these environments, raw context length is not enough.
+A model may technically have access to tens or hundreds of thousands of tokens and still:
+resurrect an obsolete plan
+reuse an invalid tool result
+confuse two configurations
+import assumptions from the wrong branch
+forget that a previous conclusion was disproven
+overwrite a verified answer during final synthesis
+apply an old requirement to a new state
+use a correct fact in the wrong counterfactual world
+Jack-Long-Agentic-MTP-27b treats long-context reasoning as an active-state management problem.
+Its purpose is not merely to preserve information.
+Its purpose is to preserve the correct controlling information.
+
+Long Context Is Not Working Memory
+A useful distinction is:
+Conversation history = everything that happened
+
+Workspace state = what matters now
+A long context window can preserve:
+old plans
+new plans
+failed tool results
+corrected tool results
+deprecated file paths
+active file paths
+rejected hypotheses
+verified conclusions
+multiple configurations
+alternative counterfactual worlds
+The presence of information in context does not guarantee that the correct information controls the next action.
+Jack is designed around the idea that:
+Long-horizon reliability depends on repeatedly reconstructing a small authoritative working state from a much larger historical context.
+
+The Jack Long-Context Workspace
+Jack uses several structured cognitive operations intended to improve long-horizon agentic reliability.
+The major components include:
+Incremental Global Workspace Compression
+High-Fidelity Context Grounding
+Structured Context Anchoring
+Configuration and Counterfactual Separation
+Independent Falsification and Calibration
+Deterministic Tool Delegation and Verification
+These operations are expressed through structured XML reasoning stages that occur after native reasoning and any required deterministic tool execution.
+
+Anthropic's J-Space and the Jack Research Direction
+In 2026, Anthropic published A Global Workspace in Language Models, describing a small collection of internal neural representations referred to as J-space, discovered using a Jacobian-based interpretability method.
+Anthropic's experiments associate this internal workspace with properties including:
+reportable internal representations
+deliberate focus
+silent intermediate reasoning
+flexible reuse of representations across downstream tasks
+higher-order cognition
+causal influence on model outputs
+The important distinction is that J-space is not the same thing as visible Chain of Thought.
+It operates inside the model's internal activations.
+Jack approaches the problem from an external engineering direction.
+The central question behind Jack is:
+If a language model contains a limited internal workspace used for deliberate reasoning, can external structure help determine what information remains active, what is kept separate, what is repeatedly reconstructed, and what is allowed to govern downstream action?
+Jack does not claim to directly read, edit, or identify specific Qwen internal activations.
+Instead, Jack uses structured context engineering to create stable semantic coordinates intended to help the model repeatedly reconstruct the information that should control the current task.
+In simple terms:
+Long context stores history.
+ Jack reconstructs the working state.
+The current evidence for this approach is behavioral.
+Jack does not claim direct mechanistic proof that a particular XML tag edits a specific internal J-space activation.
+The stronger and more defensible claim is:
+Structured Jack inference changes how the model preserves, reconstructs, separates, verifies, and acts on information over extended reasoning trajectories.
+
+Jack Expanded Knowledge
+A central part of Jack is the Expanded Knowledge format.
+Expanded Knowledge uses structured patterns such as:
+<pattern domain="reasoning" name="Example Pattern">
+  <why>
+    Why this pattern matters.
+  </why>
+
+  <how>
+    How the model should correctly approach the problem.
+  </how>
+
+  <pitfall>
+    The specific failure mode that must be recognized and avoided.
+  </pitfall>
+</pattern>
+This structure is intentionally different from a flat list of instructions.
+The three axes serve different roles.
+<why>
+Provides conceptual justification.
+The model receives not merely a command, but an explanation of the invariant the pattern is intended to preserve.
+<how>
+Defines the constructive path.
+It provides a positive trajectory toward the desired behavior.
+<pitfall>
+Defines the failure boundary.
+It explicitly represents the incorrect trajectory that should remain separated from the correct one.
+Together, the structure represents:
+Why the rule exists
+
+What the correct path looks like
+
+What the failure path looks like
+The Expanded Knowledge research explores the hypothesis that structured representations can act as stronger semantic coordinates than ordinary flat prose, particularly across long sequence horizons.
+The goal is not simply to tell the model more.
+The goal is to make important information easier to:
+isolate
+retrieve
+reconstruct
+compare
+falsify
+preserve
+
+Operative Recall
+Long-context recall is often evaluated as simple retrieval:
+Can the model remember a fact that appeared earlier?
+For an agent, that is not enough.
+An agent may correctly remember both:
+OLD_PATH = C:\Old\Model.gguf
+
+NEW_PATH = C:\Current\Model.gguf
+and still fail by using the old path.
+It may remember both:
+TOOL_RESULT_1 = invalid
+
+TOOL_RESULT_2 = verified
+and still act on the invalid result.
+Jack therefore treats recall as more than factual retrieval.
+It is designed around operative recall:
+Can the model retrieve the correct information, preserve its provenance, distinguish it from superseded alternatives, and continue using it correctly after additional state transitions?
+This requires more than remembering tokens.
+It requires maintaining state authority.
+
+Incremental Global Workspace Compression
+One of the core Jack mechanisms is:
+<workspace_state>
+...
+</workspace_state>
+The purpose of <workspace_state> is not to summarize the entire conversation.
+It reconstructs the current operative state.
+The workspace may preserve:
+the current milestone
+exact constraints
+active file paths
+current configuration
+verified results
+unresolved questions
+rejected hypotheses
+remaining risks
+the next required action
+This acts as a form of incremental workspace compression.
+Instead of repeatedly forcing the model to reconstruct the current state from thousands of historical tokens, the controlling variables are rebound into a dense representation near the current generation frontier.
+The intended process is:
+Long historical context
+        ↓
+Relevant state selection
+        ↓
+Compressed active workspace
+        ↓
+Current reasoning and action
+This becomes increasingly important during long agentic trajectories where many previous states remain factually present but should no longer control behavior.
+
+High-Fidelity Grounding
+Jack explicitly separates evidence from inference through:
+<grounded_source>
+...
+</grounded_source>
+This is intended to distinguish:
+direct observations
+retrieved evidence
+deterministic tool results
+derived conclusions
+assumptions
+requested outcomes
+predictions
+unknown information
+The goal is to reduce a common long-context failure:
+plausible information
+        ↓
+silently replaces
+        ↓
+observed information
+
+Structured Context Anchoring
+Critical facts can be assigned stable symbolic coordinates.
+For example:
+<anchor_fact ID="CURRENT_MODEL_PATH">
+C:\Models\Jack-Long-Agentic-MTP-27b-IQ4_XS.gguf
+</anchor_fact>
+Or:
+<anchor_fact ID="VERIFIED_RESULT">
+Minimum evidence size: 7
+</anchor_fact>
+These anchors are intended to help important variables survive:
+long generations
+repeated revisions
+tool calls
+branching analysis
+counterfactual reasoning
+corrections
+final synthesis
+An anchor is more than a repeated fact.
+It marks a fact as structurally important to the current task.
+
+Configuration and Counterfactual Separation
+One of the major Jack research targets is preventing information from one configuration or logical world from leaking into another.
+For example:
+Configuration A:
+Validator ON
+Measured latency: 142 ms
+
+Configuration B:
+Validator OFF
+Latency: UNKNOWN
+A model may incorrectly transfer the measured latency from Configuration A into a prediction about Configuration B.
+A similar failure occurs in logical reasoning:
+Evaluate subset:
+{3, 4, 6, 8}
+
+But silently reuse:
+1 and 5
+Jack explicitly attempts to keep:
+observed configurations
+proposed configurations
+historical configurations
+active branches
+counterfactual branches
+superseded states
+logically separated.
+The objective is not merely to remember multiple states.
+The objective is to know which state is currently authorized to control the answer.
+
+Independent Falsification and Calibration
+Before final commitment, Jack performs an independent falsification and calibration pass through:
+<pitfall_check>
+...
+</pitfall_check>
+The purpose is not automatic disagreement.
+The model evaluates whether the evidence establishes that a claim is:
+SUPPORTED
+
+CONTRADICTED
+
+INSUFFICIENT EVIDENCE
+This is designed to reduce both:
+sycophantic agreement
+reflexive contrarianism
+The objective is calibrated reasoning.
+A claim that is not proven is not automatically false.
+A claim that is not disproven is not automatically true.
+This distinction becomes especially important in long-running agentic tasks where multiple hypotheses and configurations may remain present simultaneously.
+
+Deterministic Tool Delegation
+Jack is designed for real agent runtimes where deterministic tools may be available.
+When a task depends on:
+exact arithmetic
+exhaustive search
+large recurrence evaluation
+code execution
+directly testable behavior
+combinatorial enumeration
+exact numerical verification
+the intended architecture is:
+Native reasoning
+        ↓
+Deterministic tool execution
+        ↓
+Workspace reconstruction
+        ↓
+Grounding and anchoring
+        ↓
+Falsification
+        ↓
+Final answer
+This is deliberately different from:
+Reason for a long time
+        ↓
+Use a tool
+        ↓
+Continue free-form reasoning
+        ↓
+Accidentally overwrite the verified result
+Jack is designed to make deterministic evidence part of the controlling state rather than merely another piece of conversational text.
+The model may reason probabilistically.
+But once a result has been deterministically established, later reasoning should explain or use that result rather than silently replacing it with an unsupported conclusion.
+
+Preserving Native Qwen3.6-27B Intelligence
+Jack does not replace Qwen's native reasoning system.
+It preserves the native model as the cognitive engine.
+The GGUF integration modifies the raw:
+tokenizer.chat_template
+metadata while preserving the original quantized tensor data.
+The intended execution flow is:
+Native Qwen reasoning
+        ↓
+Deterministic tools when required
+        ↓
+Jack structured workspace reasoning
+        ↓
+Final answer
+Jack is not intended to force a weaker synthetic reasoning style onto the model.
+The native model performs the primary reasoning.
+Jack provides the surrounding architecture for:
+state selection
+state reconstruction
+evidence grounding
+deterministic delegation
+counterfactual isolation
+falsification
+final commitment
+
+What Was Modified
+Modified
+tokenizer.chat_template metadata
+The Jack system architecture is integrated into the model's GGUF chat-template behavior.
+Not Modified
+The Jack integration does not modify the model's quantized tensor data.
+The model remains based on the original Qwen3.6-27B model weights represented by the source GGUF.
+The injection process uses a raw GGUF metadata splice rather than reconstructing the model through a GGUF writer.
+The patching workflow is designed to preserve:
+all non-target metadata
+tensor information
+quantized tensor data
+and verifies tensor-region integrity after the patch.
+
+Current 27B Demonstration
+The current hardened:
+Jack-Long-Agentic-MTP-27b-IQ4_XS.gguf
+was tested on a finite-state reasoning task involving:
+nine binary module states
+exactly four failures
+nine simultaneous logical constraints
+causal claim calibration
+nine single-statement counterfactual removals
+exhaustive minimum-evidence search
+proof under an active constraint subset
+adversarial competing diagnoses
+The model used deterministic exhaustive enumeration over all:
+C(9,4) = 126
+possible four-failure assignments.
+In this demonstration, the model correctly recovered:
+the unique diagnosis
+all five epistemic claim classifications
+all nine single-statement counterfactual outcomes
+the correct minimum evidence size
+all three minimum evidence subsets
+a proof restricted to the active evidence subset
+valid adversarial competing diagnoses
+the exact active statement eliminating each tested competitor
+The verified unique diagnosis was:
+FAILED:
+B, D, G, I
+
+HEALTHY:
+A, C, E, F, H
+The model correctly classified the causal claim:
+"D failed because I failed."
+as:
+INSUFFICIENT EVIDENCE
+because logical co-occurrence and constraint satisfaction do not by themselves establish real-world causation.
+The minimum evidence size was:
+7 statements
+with three minimum subsets:
+{1,2,3,4,7,8,9}
+
+{1,2,4,5,7,8,9}
+
+{1,2,4,6,7,8,9}
+The model also produced a valid proof using only:
+{1,2,4,6,7,8,9}
+plus the global premise that exactly four modules were failed.
+This is important because a recurring failure mode in long-horizon reasoning is silently reusing inactive constraints while evaluating a reduced configuration.
+In this demonstration, the model preserved the active constraint boundary through the proof.
+These results are from a specific internal demonstration and should not be interpreted as a universal benchmark guarantee.
+
+Prior Jack Long-Context Research
+The Jack Expanded Knowledge architecture was previously evaluated on an earlier Qwen3.5-9B-MTP research model in a hyper-extended, multi-turn narrative stress test.
+The model was required to preserve custom, non-standard facts across an evolving context containing:
+a custom historical timeline
+invented entities
+specific dates
+specific locations
+specific physical measurements
+multiple narrative eras
+multi-hop factual relationships
+The reported experimental matrix for that earlier 9B study was:
+Configuration
+Native Thinking
+Jack Structured XML
+Reported Factual Accuracy
+Standard 9B model
+Off
+No
+35%
+Standard 9B model
+On
+No
+55%
+Jack structured context
+Off
+Yes
+92%
+Jack structured context
+On
+Yes
+100%
+
+These results belong to the earlier Qwen3.5-9B-MTP research experiment.
+They are included as architectural background and should not be interpreted as benchmark results for this Qwen3.6-27B release.
+The important observation from that experiment was the direction of the result:
+Structured workspace anchoring produced a substantially larger improvement in that specific long-context recall test than enabling native reasoning alone.
+The experiment suggested that the limiting factor was not simply whether the model could reason.
+The limiting factor was whether the correct historical variables remained accessible and active after a long sequence of intervening generation.
+
+Prior Same-Model State-Contamination Research
+Earlier Jack experiments with Qwen3.5-9B-MTP also compared the same underlying model with and without the hardened Jack inference architecture.
+The standard model demonstrated substantial native reasoning ability.
+However, during a minimum-evidence problem, it proposed a reduced constraint subset and then silently reused constraints that were not present in that subset.
+The failure pattern was:
+Evaluate configuration:
+{3,4,6,8}
+
+        ↓
+
+Silently reuse:
+1 and 5
+
+        ↓
+
+Reach an invalid minimum-evidence conclusion
+The model possessed much of the necessary reasoning ability.
+The failure was maintaining the boundaries of the currently active configuration.
+The hardened Jack version recovered the correct minimum-evidence structure.
+This earlier 9B experiment helped motivate the configuration-separation and active-state mechanisms used in the current 27B model.
+It should not be interpreted as a direct base-versus-Jack benchmark of this Qwen3.6-27B release.
+
+Why This Matters for Real Agents
+A story-recall benchmark or logic puzzle is only a simplified version of a much harder agentic problem.
+A real agent may experience:
+Plan V1
+        ↓
+Tool failure
+        ↓
+Plan V2
+        ↓
+New user constraint
+        ↓
+Corrected file path
+        ↓
+Partial execution
+        ↓
+Deterministic verification
+        ↓
+Plan V3
+        ↓
+Additional tool result
+        ↓
+Final action
+Every previous state may remain inside the context window.
+Without an explicit mechanism for reconstructing the active state, historical information can continue influencing later behavior even after it has been superseded.
+Jack's central hypothesis is:
+Long-horizon reliability depends on repeatedly reconstructing a small authoritative working state from a much larger historical context.
+This makes the architecture especially relevant to:
+persistent coding agents
+research agents
+autonomous project assistants
+long debugging sessions
+complex multi-tool workflows
+local agents maintaining task continuity across many turns
+
+Native Intelligence vs. Effective Agentic Intelligence
+Jack does not claim that the underlying Qwen model lacks intelligence.
+The opposite is true.
+Strong base models frequently demonstrate excellent local reasoning.
+The problem is that real agentic work requires more than solving one isolated question.
+An agent must:
+remember
+separate
+verify
+update
+reject
+reconstruct
+commit
+A model may possess enough raw intelligence to solve every individual subproblem while still failing the complete task because:
+an old assumption remains active
+a failed result is reused
+a superseded path returns
+one configuration contaminates another
+a deterministic result is overwritten
+the final answer merges incompatible intermediate states
+Jack is designed to reduce those failures.
+A useful distinction is:
+Native model capability
+        ≠
+Reliable long-horizon agent capability
+Jack is designed to help close that gap.
+
+Structure Beats Scale
+Jack is part of a broader research program exploring the relationship between model scale and inference architecture.
+The broader thesis is:
+Scale determines potential capability. Structure determines how much of that capability can be reliably accessed.
+This does not mean scale is irrelevant.
+Larger and stronger models generally provide more underlying cognitive capacity.
+Jack explores a complementary question:
+How much of that capacity remains usable when the task extends across long context, state changes, tool calls, revisions, counterfactuals, and final synthesis?
+The model is not being asked to become a different intelligence.
+It is being given an architecture intended to help it use the intelligence it already has more reliably across time.
+
+Relationship Between Anthropic's J-Space and Jack
+Anthropic's research investigates where deliberate, flexible reasoning appears to occur inside a model.
+Jack investigates a complementary systems problem.
+Anthropic:
+
+Where does deliberate, flexible reasoning appear to occur
+inside the model?
+
+
+Jack:
+
+How can an external inference architecture help keep the
+right information active, separated, grounded, and authoritative
+for that reasoning over long horizons?
+Jack's:
+Expanded Knowledge format
+workspace reconstruction
+grounding
+anchoring
+counterfactual separation
+falsification
+deterministic verification
+are all designed around that engineering problem.
+The relationship can be summarized as:
+Anthropic identified evidence for an internal workspace. Jack is an attempt to engineer the information flow around a model's working state.
+Again, the current Jack evidence is behavioral.
+No claim is made that a specific XML tag has been mechanistically proven to directly edit a specific Qwen internal activation.
+
+Intended Use
+This model is intended for:
+GGUF-compatible local runtimes
+autonomous or semi-autonomous agents
+long-running coding tasks
+multi-step debugging
+complex research workflows
+tool-assisted reasoning
+long-context project work
+persistent multi-turn assistants
+experiments involving structured inference architectures
+It is especially relevant when the task contains changing state, rather than a single static question.
+
+Recommended Runtime Behavior
+For the strongest intended behavior:
+preserve native thinking when available
+expose deterministic tools to the model
+allow the model to actually use those tools
+do not add a competing external system prompt unless intentionally testing one
+use a runtime capable of maintaining conversation and tool history
+The intended sequence is:
+Native reasoning
+        ↓
+Deterministic tools when required
+        ↓
+Jack structured workspace reasoning
+        ↓
+Final user-facing answer
+
+What Jack Is Not
+Jack-Long-Agentic-MTP-27b is not:
+a new foundation model
+a weight-level replacement for Qwen3.6-27B
+a guarantee of perfect reasoning
+a substitute for deterministic validation
+proof that a 27B model universally outperforms larger models
+direct mechanistic proof that XML literally edits a specific internal J-space activation
+Jack is an inference architecture.
+Its purpose is to make the underlying model:
+less vulnerable to state drift
+more reliable across long trajectories
+better at preserving verified information
+more consistent across configuration changes
+more capable in practical multi-turn agentic workloads
+
+Model Lineage
+Field
+Value
+Model name
+Jack-Long-Agentic-MTP-27b-IQ4_XS
+Base architecture
+Qwen3.6-27B
+Source GGUF
+Qwen3.6-27B-IQ4_XS.gguf
+Format
+GGUF
+Quantization
+IQ4_XS
+Jack integration
+Self-contained tokenizer.chat_template metadata integration
+Tensor modification by Jack
+None
+Native reasoning
+Preserved
+Deterministic tool architecture
+Supported when exposed by the runtime
+Primary specialization
+Long-context agentic reasoning and state management
+
+
+Research Background
+This model is associated with the broader Jack research direction, including:
+Structure Beats Scale: A Comparative Evaluation of Prompting Frameworks on Complex Policy Reasoning
+Engineering the J-Space: Beyond Chain of Thought
+Engineering J-Space and Long Context Recall: Evidence from Hyper-Extended Generation Stress Testing
+Meet Jack: The First Agent for Real Privacy and Security
+
+Core Design Principle
+The model is not being asked to become a different intelligence.
+It is being given a better architecture for using the intelligence it already has.
+For short isolated questions, the underlying Qwen3.6-27B model is already highly capable.
+For real agentic work over many turns, raw reasoning ability is only one part of the problem.
+The model must also preserve a coherent operative world while that world changes.
+That is the problem:
+Jack-Long-Agentic-MTP-27b is built to solve.
+
+One-Line Description
+A self-contained Qwen3.6-27B IQ4_XS GGUF with the Jack long-context agentic cognitive architecture, designed to preserve native intelligence while improving multi-turn state management, deterministic tool use, counterfactual separation, verified-state preservation, and long-horizon agent reliability.
+
+Qwen3.6-27B intelligence.
+ Jack long-horizon cognition.
